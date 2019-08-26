@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web App</title>
+    <script src="scripts.js"></script>
+    <link href="stylesheet.css" rel="stylesheet">
+</head>
+<body onload="getData()">
+
+<div align="center">
+    <h1>Bank Accounts List</h1>
+
+    <table class="table_out" id="table">
+        <tr>
+            <th>id</th>
+            <th>Owner</th>
+            <th>AccountNumber</th>
+            <th>Balance</th>
+            <th>isBlocked</th>
+        </tr>
+    </table>
+
+    <br>
+    <form id="form_delete">
+        <input type="text" class="inputs" name="idAccount" size="10" placeholder="Id">
+        <button class="btn" onclick=postServletJSON("deleteAJAX","form_delete")>DELETE BY ID</button>
+    </form>
+
+    <form id="form_add">
+        <input type="text" class="inputs" name="idAccount" placeholder="Id">
+        <input type="text" class="inputs" name="owner" placeholder="Owner">
+        <input type="text" class="inputs" name="accountNumber" placeholder="Account Number">
+        <input type="text" class="inputs" name="balance" placeholder="Balance">
+        <input type="text" class="inputs" name="isBlocked" placeholder="isBlocked">
+        <button class="btn" onclick=postServletJSON("addAJAX","form_add")>ADD NEW ACCOUNT</button>
+    </form>
+
+    <form id="form_update">
+        <input type="text" class="inputs" name="idAccount" placeholder="Id">
+        <input type="text" class="inputs" name="owner" placeholder="Owner">
+        <input type="text" class="inputs" name="accountNumber" placeholder="Account Number">
+        <input type="text" class="inputs" name="balance" placeholder="Balance">
+        <input type="text" class="inputs" name="isBlocked" placeholder="isBlocked">
+        <button class="btn" onclick=postServletJSON("updateAJAX","form_update")>UPDATE ACCOUNT</button>
+    </form>
+
+    <form action="unblock" method="post" class="form">
+        <input type="text" class="inputs" name="accountNumber" size="10" placeholder="Account">
+        <input type="submit" class="btn" value="UNBLOCK ACCOUNT">
+    </form>
+
+    <br>
+    <form action="index.jsp">
+        <button class="btn" type="submit">Back to Index</button>
+    </form>
+
+    <br>
+    <form action="logout" method="post">
+        <input class="btn" type="submit" value="LOGOUT" >
+    </form>
+
+</div>
+
+</body>
+</html>

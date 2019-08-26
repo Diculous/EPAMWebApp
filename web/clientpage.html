@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Client Page</title>
+    <script src="scripts2.js"></script>
+    <link href="stylesheet.css" rel="stylesheet">
+</head>
+<body onload="init()">
+
+<div align="center">
+    <h1 id="name"></h1>
+    <div id = "passport"></div>
+    <div id = "dateOfBirth"></div>
+    <div id = "address"></div>
+    <div>We know all about you, Comrade</div>
+
+    <table class="table_out" id="table">
+        <tr>
+            <th>AccountNumber</th>
+            <th>Balance</th>
+            <th>isBlocked</th>
+        </tr>
+    </table>
+</div>
+
+    <form id="fill" action="fill" method="post">
+        <select class="inputs" name="accountNumber"></select>
+        <input type="text" class="inputs" name="fill">
+        <button type="submit" class="btn">Fill Account</button>
+    </form>
+
+    <form id="pay" action="payment" method="post">
+        <select class="inputs" name="accountNumber"></select>
+        <input type="text" class="inputs" name="pay">
+        <button type="submit" class="btn">Create Payment</button>
+    </form>
+
+    <form id="block" action="block" method="post">
+        <select class="inputs" name="accountNumber"></select>
+        <button type="submit" class="btn">Block Account</button>
+    </form>
+
+    <form action="logout" method="post">
+        <input class="btn" type="submit" value="LOGOUT" >
+    </form>
+
+
+<script>
+   function getClient()
+    {
+        var data = JSON.parse('{"name":"Jack","items":{"dog":1,"car":1,"phone":2}}');
+        var obj = data.items;
+        document.getElementById("kenoby").innerHTML = "Hello there " +data.name;
+    }
+</script>
+
+</body>
+</html>

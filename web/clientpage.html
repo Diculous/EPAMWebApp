@@ -8,6 +8,12 @@
 </head>
 <body onload="init()">
 
+<div align="right">
+<form action="logout" method="post">
+    <input class="btn" type="submit" value="LOGOUT" >
+</form>
+</div>
+
 <div align="center">
     <h1 id="name"></h1>
     <div id = "passport"></div>
@@ -22,29 +28,25 @@
             <th>isBlocked</th>
         </tr>
     </table>
-</div>
 
     <form id="fill" action="fill" method="post">
-        <select class="inputs" name="accountNumber"></select>
+        <select class="select" name="accountNumber"></select>
         <input type="text" class="inputs" name="fill">
         <button type="submit" class="btn">Fill Account</button>
     </form>
 
     <form id="pay" action="payment" method="post">
-        <select class="inputs" name="accountNumber"></select>
+        <select class="select" name="accountNumber"></select>
         <input type="text" class="inputs" name="pay">
         <button type="submit" class="btn">Create Payment</button>
     </form>
 
     <form id="block" action="block" method="post">
-        <select class="inputs" name="accountNumber"></select>
+        <select class="select" name="accountNumber"></select>
         <button type="submit" class="btn">Block Account</button>
     </form>
 
-    <form action="logout" method="post">
-        <input class="btn" type="submit" value="LOGOUT" >
-    </form>
-
+</div>
 
 <script>
    function getClient()

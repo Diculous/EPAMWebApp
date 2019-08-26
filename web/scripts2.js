@@ -36,10 +36,10 @@ function fillCell(value, row) {
 }
 
 function handleResponse(data) {
-    document.getElementById("name").innerHTML = "Welcome to your accounts list comrade " + data[0].name;
-    document.getElementById("address").innerHTML = "Your address is " + data[0].address;
-    document.getElementById("passport").innerHTML = "Your passport number is " + data[0].passportNumber;
-    document.getElementById("dateOfBirth").innerHTML = "Your birth date is " + data[0].dateOfBirth;
+    document.getElementById("name").innerHTML = "Welcome to your accounts list, comrade " + data[0].name;
+    document.getElementById("address").innerHTML = "Your address: " + "<b>" + data[0].address +"</b>";
+    document.getElementById("passport").innerHTML = "Your passport number: " + "<b>" + data[0].passportNumber +"</b>";
+    document.getElementById("dateOfBirth").innerHTML = "Your birth date: " + "<b>" + data[0].dateOfBirth +"</b>";
     var select = document.querySelector('#fill select');
     var selectPay = document.querySelector('#pay select');
     var selectBlock = document.querySelector('#block select');

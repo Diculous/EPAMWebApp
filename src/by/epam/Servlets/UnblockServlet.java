@@ -22,11 +22,11 @@ public class UnblockServlet extends HttpServlet {
         } else {
             account = "-1";
         }
-        request.getRequestDispatcher("/indexAjax.html").forward(request, response);
+        request.getRequestDispatcher("/index.html").forward(request, response);
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/indexAjax.html").forward(request, response);
+        request.getRequestDispatcher("/index.html").forward(request, response);
     }
 }

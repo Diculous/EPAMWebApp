@@ -24,7 +24,7 @@ public class HelloServlet extends HttpServlet {
             Cookie userNameCookie = new Cookie("user", name);
             userNameCookie.setMaxAge(-1);
             response.addCookie(userNameCookie);
-            response.sendRedirect("indexAjax.html");
+            response.sendRedirect("index.html");
         } else {
             if (clientLoginData.getId() == 0) {
                 response.setCharacterEncoding("UTF-8");

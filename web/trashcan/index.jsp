@@ -8,7 +8,7 @@
 <html lang="en">
   <head>
     <title>Web App</title>
-    <link href="stylesheet.css" rel="stylesheet">
+    <link href="../stylesheet.css" rel="stylesheet">
   </head>
 <body>
 <div align="center">
@@ -61,7 +61,7 @@
     </form>
 
     <br>
-    <form action="indexAjax.html">
+    <form action="../index.html">
          <button class="btn" type="submit">Press Here to Enter Ajax</button>
     </form>
 

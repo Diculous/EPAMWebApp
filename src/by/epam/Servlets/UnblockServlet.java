@@ -19,8 +19,6 @@ public class UnblockServlet extends HttpServlet {
             BankAccount bankAccount = new BankAccount();
             bankAccount.setAccountNumber(Long.parseLong(account));
             bankAccountDao.unblock(bankAccount);
-        } else {
-            account = "-1";
         }
         request.getRequestDispatcher("/index.html").forward(request, response);
 

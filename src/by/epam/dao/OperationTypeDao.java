@@ -14,11 +14,11 @@ public class OperationTypeDao implements DAOOperationType {
 
     public List<OperationType> findAll() {
         List<OperationType> operationTypes = new ArrayList<>();
-        Connection cn = SQLDaoFactory.createConnection();
-        Statement st = null;
+        Connection connection = SQLDaoFactory.createConnection();
+        Statement statement = null;
         try {
-            st = cn.createStatement();
-            ResultSet resultSet = st.executeQuery(configurationManager.getPropertySQL("SQL_SELECT_ALL_TYPES_OF_PAYMENTS"));
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(configurationManager.getPropertySQL("SQL_SELECT_ALL_TYPES_OF_PAYMENTS"));
             while (resultSet.next()) {
                 OperationType operationType = new OperationType();
                 operationType.setOperationType(resultSet.getString("OperationType"));
@@ -28,8 +28,8 @@ public class OperationTypeDao implements DAOOperationType {
             System.err.println("SQL exception (request or table failed): " + e);
         } finally {
             try {
-                st.close();
-                cn.close();
+                statement.close();
+                connection.close();
             } catch (SQLException | NullPointerException e) {
                 e.printStackTrace();
             }
@@ -39,13 +39,13 @@ public class OperationTypeDao implements DAOOperationType {
 
     public boolean insertOperationType(OperationType operationType) {
         boolean flag = false;
-        Connection cn = SQLDaoFactory.createConnection();
-        PreparedStatement st = null;
+        Connection connection = SQLDaoFactory.createConnection();
+        PreparedStatement preparedStatement = null;
 
         try {
-            st = cn.prepareStatement(configurationManager.getPropertySQL("SQL_CREATE_NEW_PAYMENT_TYPE"));
-            st.setString(1, operationType.getOperationType());
-            st.executeUpdate();
+            preparedStatement = connection.prepareStatement(configurationManager.getPropertySQL("SQL_CREATE_NEW_PAYMENT_TYPE"));
+            preparedStatement.setString(1, operationType.getOperationType());
+            preparedStatement.executeUpdate();
             flag = true;
         }
         catch (SQLException e) {
@@ -53,8 +53,8 @@ public class OperationTypeDao implements DAOOperationType {
         }
         finally {
             try {
-                st.close();
-                cn.close();
+                preparedStatement.close();
+                connection.close();
             } catch (SQLException | NullPointerException e) {
                 e.printStackTrace();
             }
@@ -64,14 +64,14 @@ public class OperationTypeDao implements DAOOperationType {
 
     public boolean updateOperationType(OperationType operationType, String oldOperationType) {
         boolean flag = false;
-        Connection cn = SQLDaoFactory.createConnection();
-        PreparedStatement st = null;
+        Connection connection = SQLDaoFactory.createConnection();
+        PreparedStatement preparedStatement = null;
 
         try {
-            st = cn.prepareStatement(configurationManager.getPropertySQL("SQL_UPDATE_PAYMENT_TYPE"));
-            st.setString(1, operationType.getOperationType());
-            st.setString(2, oldOperationType);
-            st.executeUpdate();
+            preparedStatement = connection.prepareStatement(configurationManager.getPropertySQL("SQL_UPDATE_PAYMENT_TYPE"));
+            preparedStatement.setString(1, operationType.getOperationType());
+            preparedStatement.setString(2, oldOperationType);
+            preparedStatement.executeUpdate();
             flag = true;
         }
         catch (SQLException e) {
@@ -79,8 +79,8 @@ public class OperationTypeDao implements DAOOperationType {
         }
         finally {
             try {
-                st.close();
-                cn.close();
+                preparedStatement.close();
+                connection.close();
             } catch (SQLException | NullPointerException e) {
                 e.printStackTrace();
             }
@@ -90,13 +90,13 @@ public class OperationTypeDao implements DAOOperationType {
 
     public boolean deleteOperationType(OperationType operationType) {
         boolean flag = false;
-        Connection cn = SQLDaoFactory.createConnection();
-        PreparedStatement st = null;
+        Connection connection = SQLDaoFactory.createConnection();
+        PreparedStatement preparedStatement = null;
 
         try {
-            st = cn.prepareStatement(configurationManager.getPropertySQL("SQL_DELETE_PAYMENT_TYPE"));
-            st.setString(1, operationType.getOperationType());
-            st.executeUpdate();
+            preparedStatement = connection.prepareStatement(configurationManager.getPropertySQL("SQL_DELETE_PAYMENT_TYPE"));
+            preparedStatement.setString(1, operationType.getOperationType());
+            preparedStatement.executeUpdate();
             flag = true;
         }
         catch (SQLException e) {
@@ -104,8 +104,8 @@ public class OperationTypeDao implements DAOOperationType {
         }
         finally {
             try {
-                st.close();
-                cn.close();
+                preparedStatement.close();
+                connection.close();
             } catch (SQLException | NullPointerException e) {
                 e.printStackTrace();
             }

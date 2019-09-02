@@ -14,17 +14,17 @@ public class ClientDao implements DAOClient {
 
     public List<Client> findAll() {
         List<Client> clients = new ArrayList<>();
-        Connection cn = SQLDaoFactory.createConnection();
-        Statement st = null;
-        Statement st2 = null;
+        Connection connection = SQLDaoFactory.createConnection();
+        Statement statementClients = null;
+        Statement statementAccounts = null;
         ArrayList<Long> accounts;
         try {
-            st = cn.createStatement();
-            ResultSet resultSet = st.executeQuery(configurationManager.getPropertySQL("SQL_SELECT_ALL_ABONENTS"));
+            statementClients = connection.createStatement();
+            ResultSet resultSet = statementClients.executeQuery(configurationManager.getPropertySQL("SQL_SELECT_ALL_ABONENTS"));
             while (resultSet.next()) {
 
-                st2 = cn.createStatement();
-                ResultSet resultSet2 = st2.executeQuery(configurationManager.getPropertySQL("SQL_SELECT_ACCOUNTS_FOR_CLIENT") + resultSet.getInt("idClient"));
+                statementAccounts = connection.createStatement();
+                ResultSet resultSetAccounts = statementAccounts.executeQuery(configurationManager.getPropertySQL("SQL_SELECT_ACCOUNTS_FOR_CLIENT") + resultSet.getInt("idClient"));
 
                 accounts = new ArrayList<>();
                 Client client = new Client();
@@ -34,8 +34,8 @@ public class ClientDao implements DAOClient {
                 client.setPassport(resultSet.getString("passportNumber"));
                 client.setDateOfBirth(resultSet.getString("dateOfBirth"));
 
-                while (resultSet2.next()) {
-                    accounts.add(resultSet2.getLong("AccNumber"));
+                while (resultSetAccounts.next()) {
+                    accounts.add(resultSetAccounts.getLong("AccNumber"));
                 }
 
                 client.setAccounts(accounts);
@@ -46,9 +46,9 @@ public class ClientDao implements DAOClient {
             System.err.println("SQL exception (request or table failed): " + e);
         } finally {
             try {
-                st.close();
-                st2.close();
-                cn.close();
+                statementClients.close();
+                statementAccounts.close();
+                connection.close();
             } catch (SQLException | NullPointerException e) {
                 e.printStackTrace();
             }
@@ -58,24 +58,24 @@ public class ClientDao implements DAOClient {
 
     public boolean insertClient(Client client) {
         boolean flag = false;
-        Connection cn = SQLDaoFactory.createConnection();
-        PreparedStatement st = null;
+        Connection connection = SQLDaoFactory.createConnection();
+        PreparedStatement preparedStatement = null;
 
         try {
-            st = cn.prepareStatement(configurationManager.getPropertySQL("SQL_CREATE_NEW_CLIENT"));
-            st.setInt(1, client.getId());
-            st.setString(2, client.getName());
-            st.setString(3, client.getAddress());
-            st.setString(4, client.getPassport());
-            st.setString(5, client.getDateOfBirth());
-            st.executeUpdate();
+            preparedStatement = connection.prepareStatement(configurationManager.getPropertySQL("SQL_CREATE_NEW_CLIENT"));
+            preparedStatement.setInt(1, client.getId());
+            preparedStatement.setString(2, client.getName());
+            preparedStatement.setString(3, client.getAddress());
+            preparedStatement.setString(4, client.getPassport());
+            preparedStatement.setString(5, client.getDateOfBirth());
+            preparedStatement.executeUpdate();
             flag = true;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
-                st.close();
-                cn.close();
+                preparedStatement.close();
+                connection.close();
             } catch (SQLException | NullPointerException e) {
                 e.printStackTrace();
             }
@@ -85,25 +85,25 @@ public class ClientDao implements DAOClient {
 
     public boolean updateClient(Client client) {
         boolean flag = false;
-        Connection cn = SQLDaoFactory.createConnection();
-        PreparedStatement st = null;
+        Connection connection = SQLDaoFactory.createConnection();
+        PreparedStatement preparedStatement = null;
 
         try {
-            st = cn.prepareStatement(configurationManager.getPropertySQL("SQL_UPDATE_CLIENT"));
-            st.setInt(1, client.getId());
-            st.setString(2, client.getName());
-            st.setString(3, client.getAddress());
-            st.setString(4, client.getPassport());
-            st.setString(5, client.getDateOfBirth());
-            st.setInt(6, client.getId());
-            st.executeUpdate();
+            preparedStatement = connection.prepareStatement(configurationManager.getPropertySQL("SQL_UPDATE_CLIENT"));
+            preparedStatement.setInt(1, client.getId());
+            preparedStatement.setString(2, client.getName());
+            preparedStatement.setString(3, client.getAddress());
+            preparedStatement.setString(4, client.getPassport());
+            preparedStatement.setString(5, client.getDateOfBirth());
+            preparedStatement.setInt(6, client.getId());
+            preparedStatement.executeUpdate();
             flag = true;
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
-                st.close();
-                cn.close();
+                preparedStatement.close();
+                connection.close();
             } catch (SQLException | NullPointerException e) {
                 e.printStackTrace();
             }
@@ -113,13 +113,13 @@ public class ClientDao implements DAOClient {
 
     public boolean deleteClient(Client client) {
         boolean flag = false;
-        Connection cn = SQLDaoFactory.createConnection();
-        PreparedStatement st = null;
+        Connection connection = SQLDaoFactory.createConnection();
+        PreparedStatement preparedStatement = null;
 
         try {
-            st = cn.prepareStatement(configurationManager.getPropertySQL("SQL_DELETE_CLIENT"));
-            st.setInt(1, client.getId());
-            st.executeUpdate();
+            preparedStatement = connection.prepareStatement(configurationManager.getPropertySQL("SQL_DELETE_CLIENT"));
+            preparedStatement.setInt(1, client.getId());
+            preparedStatement.executeUpdate();
             flag = true;
         }
         catch (SQLException e) {
@@ -127,8 +127,8 @@ public class ClientDao implements DAOClient {
         }
         finally {
             try {
-                st.close();
-                cn.close();
+                preparedStatement.close();
+                connection.close();
             } catch (SQLException | NullPointerException e) {
                 e.printStackTrace();
             }

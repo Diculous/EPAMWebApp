@@ -1,9 +1,9 @@
 package by.epam.payments;
 
 public class ClientLoginData {
-    int id;
-    String login;
-    String password;
+    private int id;
+    private String login;
+    private String password;
 
     public ClientLoginData() {
     }

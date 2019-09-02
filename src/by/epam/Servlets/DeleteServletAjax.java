@@ -29,13 +29,6 @@ public class DeleteServletAjax extends HttpServlet {
         BankAccount bankAccount = gson.fromJson(json, BankAccount.class);
         bankAccountDao.deleteBankAccount(bankAccount);
 
-         /*   BankAccount bankAccount = new BankAccount(Integer.parseInt("101"), Long.parseLong("1254"), Boolean.parseBoolean("true"), 1);
-
-            Gson gson = new Gson();
-            String json = gson.toJson(bankAccount);
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(json);       */
         }
 
 

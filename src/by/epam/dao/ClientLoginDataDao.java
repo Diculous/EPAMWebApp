@@ -18,27 +18,27 @@ public class ClientLoginDataDao implements DAOClientLoginData {
 
     @Override
     public ClientLoginData findByLoginAndPassword(String login, String password) {
-        Connection cn = SQLDaoFactory.createConnection();
+        Connection connection = SQLDaoFactory.createConnection();
         ClientLoginData clientLoginData = new ClientLoginData();
-        PreparedStatement st = null;
+        PreparedStatement preparedStatement = null;
 
         try {
-            st = cn.prepareStatement(configurationManager.getPropertySQL("SQL_FIND_CLIENT_LOGIN_DATA"));
-            st.setString(1, login);
-            st.setString(2, password);
-            ResultSet rs = st.executeQuery();
-            while(rs.next()) {
-                clientLoginData.setId(rs.getInt(1));
-                clientLoginData.setLogin(rs.getString(2));
-                clientLoginData.setPassword(rs.getString(3));
+            preparedStatement = connection.prepareStatement(configurationManager.getPropertySQL("SQL_FIND_CLIENT_LOGIN_DATA"));
+            preparedStatement.setString(1, login);
+            preparedStatement.setString(2, password);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+                clientLoginData.setId(resultSet.getInt(1));
+                clientLoginData.setLogin(resultSet.getString(2));
+                clientLoginData.setPassword(resultSet.getString(3));
             }
         }
         catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
-                st.close();
-                cn.close();
+                preparedStatement.close();
+                connection.close();
             } catch (SQLException | NullPointerException e) {
                 e.printStackTrace();
             }
@@ -48,24 +48,24 @@ public class ClientLoginDataDao implements DAOClientLoginData {
 
     @Override
     public ClientLoginData findClientName(String login) {
-        Connection cn = SQLDaoFactory.createConnection();
+        Connection connection = SQLDaoFactory.createConnection();
         ClientLoginData clientLoginData = new ClientLoginData();
-        PreparedStatement st = null;
+        PreparedStatement preparedStatement = null;
 
         try {
-            st = cn.prepareStatement(configurationManager.getPropertySQL("SQL_FIND_CLIENT_NAME"));
-            st.setString(1, login);
-            ResultSet rs = st.executeQuery();
-            while(rs.next()) {
-                clientLoginData.setLogin(rs.getString(1));
+            preparedStatement = connection.prepareStatement(configurationManager.getPropertySQL("SQL_FIND_CLIENT_NAME"));
+            preparedStatement.setString(1, login);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+                clientLoginData.setLogin(resultSet.getString(1));
             }
         }
         catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
-                st.close();
-                cn.close();
+                preparedStatement.close();
+                connection.close();
             } catch (SQLException | NullPointerException e) {
                 e.printStackTrace();
             }
@@ -75,22 +75,22 @@ public class ClientLoginDataDao implements DAOClientLoginData {
 
     public List<AjaxClientLoader> findClientData (String name) {
         List<AjaxClientLoader> loadClientInfoAjaxes = new ArrayList<>();
-        Connection cn = SQLDaoFactory.createConnection();
-        PreparedStatement st = null;
+        Connection connection = SQLDaoFactory.createConnection();
+        PreparedStatement preparedStatement = null;
         try {
-            st = cn.prepareStatement(configurationManager.getPropertySQL("SQL_FIND_CLIENT_DATA"));
-            st.setString(1, name);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
+            preparedStatement = connection.prepareStatement(configurationManager.getPropertySQL("SQL_FIND_CLIENT_DATA"));
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
                 // name, address, passportNumber, dateOfBirth, accNumber, balance, isBlocked
                 AjaxClientLoader ajaxClientLoader = new AjaxClientLoader();
-                ajaxClientLoader.setName(rs.getString("name"));
-                ajaxClientLoader.setAddress(rs.getString("address"));
-                ajaxClientLoader.setPassportNumber(rs.getString("passportNumber"));
-                ajaxClientLoader.setDateOfBirth(rs.getString("dateOfBirth"));
-                ajaxClientLoader.setAccountNumber(rs.getLong("accNumber"));
-                ajaxClientLoader.setBalance(rs.getInt("balance"));
-                ajaxClientLoader.setBlocked(rs.getBoolean("isBlocked"));
+                ajaxClientLoader.setName(resultSet.getString("name"));
+                ajaxClientLoader.setAddress(resultSet.getString("address"));
+                ajaxClientLoader.setPassportNumber(resultSet.getString("passportNumber"));
+                ajaxClientLoader.setDateOfBirth(resultSet.getString("dateOfBirth"));
+                ajaxClientLoader.setAccountNumber(resultSet.getLong("accNumber"));
+                ajaxClientLoader.setBalance(resultSet.getInt("balance"));
+                ajaxClientLoader.setBlocked(resultSet.getBoolean("isBlocked"));
                 loadClientInfoAjaxes.add(ajaxClientLoader);
             }
         }
@@ -98,8 +98,8 @@ public class ClientLoginDataDao implements DAOClientLoginData {
             System.err.println("SQL exception (request or table failed): " + e);
         } finally {
             try {
-                st.close();
-                cn.close();
+                preparedStatement.close();
+                connection.close();
             } catch (SQLException | NullPointerException e) {
                 e.printStackTrace();
             }

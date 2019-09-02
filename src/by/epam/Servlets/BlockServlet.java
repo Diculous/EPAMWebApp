@@ -24,26 +24,6 @@ public class BlockServlet extends HttpServlet {
         bankAccountDao.blockBankAccount(bankAccount);
 
         request.getRequestDispatcher("/clientpage.html").forward(request, response);
-
-      /*  BankAccountDao bankAccountDao = new BankAccountDao();
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
-        String json = "";
-        if (br != null) {
-            json = br.readLine();
-        }
-        System.out.println(json);
-
-        Gson gson = new Gson();
-        BankAccount bankAccount = gson.fromJson(json, BankAccount.class);
-        System.out.println(bankAccount.getIdAccount());
-        System.out.println(bankAccount.getAccountNumber());
-        System.out.println(bankAccount.getBalance());
-        System.out.println(bankAccount.getBlocked());
-        System.out.println(bankAccount.getOwnerId());
-        bankAccount.setBlocked(true);
-        bankAccountDao.blockBankAccount(bankAccount);
-*/
         }
 
 

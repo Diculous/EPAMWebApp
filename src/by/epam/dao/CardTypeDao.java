@@ -13,11 +13,11 @@ public class CardTypeDao implements by.epam.interfacesDao.DAOCardType {
 
     public List<CardType> findAll() {
         List<CardType> cardTypes = new ArrayList<>();
-        Connection cn = SQLDaoFactory.createConnection();
-        Statement st = null;
+        Connection connection = SQLDaoFactory.createConnection();
+        Statement statement = null;
         try {
-            st = cn.createStatement();
-            ResultSet resultSet = st.executeQuery(configurationManager.getPropertySQL("SQL_SELECT_ALL_TYPES_OF_CARDS"));
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(configurationManager.getPropertySQL("SQL_SELECT_ALL_TYPES_OF_CARDS"));
             while (resultSet.next()) {
                 CardType cardType = new CardType();
                 cardType.setCardType(resultSet.getString("cardType"));
@@ -28,8 +28,8 @@ public class CardTypeDao implements by.epam.interfacesDao.DAOCardType {
             System.err.println("SQL exception (request or table failed): " + e);
         } finally {
             try {
-                st.close();
-                cn.close();
+                statement.close();
+                connection.close();
             } catch (SQLException | NullPointerException e) {
                 e.printStackTrace();
             }
@@ -39,14 +39,14 @@ public class CardTypeDao implements by.epam.interfacesDao.DAOCardType {
 
     public boolean insertCardType(CardType cardType) {
         boolean flag = false;
-        Connection cn = SQLDaoFactory.createConnection();
-        PreparedStatement st = null;
+        Connection connection = SQLDaoFactory.createConnection();
+        PreparedStatement preparedStatement = null;
 
         try {
-            st = cn.prepareStatement(configurationManager.getPropertySQL("SQL_CREATE_NEW_CARD_TYPE"));
-            st.setString(1, cardType.getCardType());
-            st.setInt(2, cardType.getCashBack());
-            st.executeUpdate();
+            preparedStatement = connection.prepareStatement(configurationManager.getPropertySQL("SQL_CREATE_NEW_CARD_TYPE"));
+            preparedStatement.setString(1, cardType.getCardType());
+            preparedStatement.setInt(2, cardType.getCashBack());
+            preparedStatement.executeUpdate();
             flag = true;
         }
         catch (SQLException e) {
@@ -54,8 +54,8 @@ public class CardTypeDao implements by.epam.interfacesDao.DAOCardType {
         }
         finally {
             try {
-                st.close();
-                cn.close();
+                preparedStatement.close();
+                connection.close();
             } catch (SQLException | NullPointerException e) {
                 e.printStackTrace();
             }
@@ -65,15 +65,15 @@ public class CardTypeDao implements by.epam.interfacesDao.DAOCardType {
 
     public boolean updateCardType(CardType cardType, String oldCardType) {
         boolean flag = false;
-        Connection cn = SQLDaoFactory.createConnection();
-        PreparedStatement st = null;
+        Connection connection = SQLDaoFactory.createConnection();
+        PreparedStatement preparedStatement = null;
 
         try {
-            st = cn.prepareStatement(configurationManager.getPropertySQL("SQL_UPDATE_CURRENT_CARD_TYPE"));
-            st.setString(1, cardType.getCardType());
-            st.setInt(2, cardType.getCashBack());
-            st.setString(3, oldCardType);
-            st.executeUpdate();
+            preparedStatement = connection.prepareStatement(configurationManager.getPropertySQL("SQL_UPDATE_CURRENT_CARD_TYPE"));
+            preparedStatement.setString(1, cardType.getCardType());
+            preparedStatement.setInt(2, cardType.getCashBack());
+            preparedStatement.setString(3, oldCardType);
+            preparedStatement.executeUpdate();
             flag = true;
         }
         catch (SQLException e) {
@@ -81,8 +81,8 @@ public class CardTypeDao implements by.epam.interfacesDao.DAOCardType {
         }
         finally {
             try {
-                st.close();
-                cn.close();
+                preparedStatement.close();
+                connection.close();
             } catch (SQLException | NullPointerException e) {
                 e.printStackTrace();
             }
@@ -92,13 +92,13 @@ public class CardTypeDao implements by.epam.interfacesDao.DAOCardType {
 
     public boolean deleteCardType(CardType cardType) {
         boolean flag = false;
-        Connection cn = SQLDaoFactory.createConnection();
-        PreparedStatement st = null;
+        Connection connection = SQLDaoFactory.createConnection();
+        PreparedStatement preparedStatement = null;
 
         try {
-            st = cn.prepareStatement(configurationManager.getPropertySQL("SQL_DELETE_CURRENT_CARD_TYPE"));
-            st.setString(1, cardType.getCardType());
-            st.executeUpdate();
+            preparedStatement = connection.prepareStatement(configurationManager.getPropertySQL("SQL_DELETE_CURRENT_CARD_TYPE"));
+            preparedStatement.setString(1, cardType.getCardType());
+            preparedStatement.executeUpdate();
             flag = true;
         }
         catch (SQLException e) {
@@ -106,8 +106,8 @@ public class CardTypeDao implements by.epam.interfacesDao.DAOCardType {
         }
         finally {
             try {
-                st.close();
-                cn.close();
+                preparedStatement.close();
+                connection.close();
             } catch (SQLException | NullPointerException e) {
                 e.printStackTrace();
             }

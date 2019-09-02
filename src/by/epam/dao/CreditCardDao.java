@@ -14,11 +14,11 @@ public class CreditCardDao implements DAOCreditCard {
 
     public List<CreditCard> findAll() {
         List<CreditCard> cardTypes = new ArrayList<>();
-        Connection cn = SQLDaoFactory.createConnection();
-        Statement st = null;
+        Connection connection = SQLDaoFactory.createConnection();
+        Statement statement = null;
         try {
-            st = cn.createStatement();
-            ResultSet resultSet = st.executeQuery(configurationManager.getPropertySQL("SQL_SELECT_ALL_CARDS"));
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(configurationManager.getPropertySQL("SQL_SELECT_ALL_CARDS"));
             while (resultSet.next()) {
                 CreditCard creditCard = new CreditCard();
                 creditCard.setCardNumber(resultSet.getLong("cardNumber"));
@@ -30,8 +30,8 @@ public class CreditCardDao implements DAOCreditCard {
             System.err.println("SQL exception (request or table failed): " + e);
         } finally {
             try {
-                st.close();
-                cn.close();
+                statement.close();
+                connection.close();
             } catch (SQLException | NullPointerException e) {
                 e.printStackTrace();
             }
@@ -41,15 +41,15 @@ public class CreditCardDao implements DAOCreditCard {
 
     public boolean insertCard(CreditCard creditCard) {
         boolean flag = false;
-        Connection cn = SQLDaoFactory.createConnection();;
-        PreparedStatement st = null;
+        Connection connection = SQLDaoFactory.createConnection();;
+        PreparedStatement preparedStatement = null;
 
         try {
-            st = cn.prepareStatement(configurationManager.getPropertySQL("SQL_CREATE_CARD"));
-            st.setLong(1, creditCard.getCardNumber());
-            st.setString(2, creditCard.getCardType());
-            st.setLong(3, creditCard.getAccount());
-            st.executeUpdate();
+            preparedStatement = connection.prepareStatement(configurationManager.getPropertySQL("SQL_CREATE_CARD"));
+            preparedStatement.setLong(1, creditCard.getCardNumber());
+            preparedStatement.setString(2, creditCard.getCardType());
+            preparedStatement.setLong(3, creditCard.getAccount());
+            preparedStatement.executeUpdate();
             flag = true;
         }
         catch (SQLException e) {
@@ -57,8 +57,8 @@ public class CreditCardDao implements DAOCreditCard {
         }
         finally {
             try {
-                st.close();
-                cn.close();
+                preparedStatement.close();
+                connection.close();
             } catch (SQLException | NullPointerException e) {
                 e.printStackTrace();
             }
@@ -68,16 +68,16 @@ public class CreditCardDao implements DAOCreditCard {
 
     public boolean updateCardType(CreditCard creditCard, Long oldCreditCard) {
         boolean flag = false;
-        Connection cn = SQLDaoFactory.createConnection();;
-        PreparedStatement st = null;
+        Connection connection = SQLDaoFactory.createConnection();;
+        PreparedStatement preparedStatement = null;
 
         try {
-            st = cn.prepareStatement(configurationManager.getPropertySQL("SQL_UPDATE_CURRENT_CARD"));
-            st.setLong(1, creditCard.getCardNumber());
-            st.setString(2, creditCard.getCardType());
-            st.setLong(3, creditCard.getAccount());
-            st.setLong(4, oldCreditCard);
-            st.executeUpdate();
+            preparedStatement = connection.prepareStatement(configurationManager.getPropertySQL("SQL_UPDATE_CURRENT_CARD"));
+            preparedStatement.setLong(1, creditCard.getCardNumber());
+            preparedStatement.setString(2, creditCard.getCardType());
+            preparedStatement.setLong(3, creditCard.getAccount());
+            preparedStatement.setLong(4, oldCreditCard);
+            preparedStatement.executeUpdate();
             flag = true;
         }
         catch (SQLException e) {
@@ -85,8 +85,8 @@ public class CreditCardDao implements DAOCreditCard {
         }
         finally {
             try {
-                st.close();
-                cn.close();
+                preparedStatement.close();
+                connection.close();
             } catch (SQLException | NullPointerException e) {
                 e.printStackTrace();
             }
@@ -96,13 +96,13 @@ public class CreditCardDao implements DAOCreditCard {
 
     public boolean deleteCard(CreditCard creditCard) {
         boolean flag = false;
-        Connection cn = SQLDaoFactory.createConnection();;
-        PreparedStatement st = null;
+        Connection connection = SQLDaoFactory.createConnection();;
+        PreparedStatement preparedStatement = null;
 
         try {
-            st = cn.prepareStatement(configurationManager.getPropertySQL("SQL_DELETE_CURRENT_CARD"));
-            st.setLong(1, creditCard.getCardNumber());
-            st.executeUpdate();
+            preparedStatement = connection.prepareStatement(configurationManager.getPropertySQL("SQL_DELETE_CURRENT_CARD"));
+            preparedStatement.setLong(1, creditCard.getCardNumber());
+            preparedStatement.executeUpdate();
             flag = true;
         }
         catch (SQLException e) {
@@ -110,8 +110,8 @@ public class CreditCardDao implements DAOCreditCard {
         }
         finally {
             try {
-                st.close();
-                cn.close();
+                preparedStatement.close();
+                connection.close();
             } catch (SQLException | NullPointerException e) {
                 e.printStackTrace();
             }

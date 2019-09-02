@@ -33,7 +33,6 @@ public class LoadServletAjax extends HttpServlet {
         }
 
         String jsonReformatted = gson.toJson(ajaxloaders);
-        String sjson = gson.toJson(bankAccounts);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(jsonReformatted);

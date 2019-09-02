@@ -14,11 +14,11 @@ public class PaymentDao implements DAOPayment {
 
     public List<Payment> findAll() {
         List<Payment> payments = new ArrayList<>();
-        Connection cn = SQLDaoFactory.createConnection();
-        Statement st = null;
+        Connection connection = SQLDaoFactory.createConnection();
+        Statement statement = null;
         try {
-            st = cn.createStatement();
-            ResultSet resultSet = st.executeQuery(configurationManager.getPropertySQL("SQL_SELECT_ALL_PAYMENTS"));
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(configurationManager.getPropertySQL("SQL_SELECT_ALL_PAYMENTS"));
             while (resultSet.next()) {
                 Payment payment = new Payment();
                 payment.setPaymentValue(resultSet.getInt("paymentValue"));
@@ -30,8 +30,8 @@ public class PaymentDao implements DAOPayment {
             System.err.println("SQL exception (request or table failed): " + e);
         } finally {
             try {
-                st.close();
-                cn.close();
+                statement.close();
+                connection.close();
             } catch (SQLException | NullPointerException e) {
                 e.printStackTrace();
             }
@@ -41,15 +41,15 @@ public class PaymentDao implements DAOPayment {
 
     public boolean insertPayment(Payment payment) {
         boolean flag = false;
-        Connection cn = SQLDaoFactory.createConnection();
-        PreparedStatement st = null;
+        Connection connection = SQLDaoFactory.createConnection();
+        PreparedStatement preparedStatement = null;
 
         try {
-            st = cn.prepareStatement(configurationManager.getPropertySQL("SQL_CREATE_PAYMENT"));
-            st.setInt(1, payment.getPaymentValue());
-            st.setString(2, payment.getPaymentType());
-            st.setLong(3, payment.getBankAccount());
-            st.executeUpdate();
+            preparedStatement = connection.prepareStatement(configurationManager.getPropertySQL("SQL_CREATE_PAYMENT"));
+            preparedStatement.setInt(1, payment.getPaymentValue());
+            preparedStatement.setString(2, payment.getPaymentType());
+            preparedStatement.setLong(3, payment.getBankAccount());
+            preparedStatement.executeUpdate();
             flag = true;
         }
         catch (SQLException e) {
@@ -57,8 +57,8 @@ public class PaymentDao implements DAOPayment {
         }
         finally {
             try {
-                st.close();
-                cn.close();
+                preparedStatement.close();
+                connection.close();
             } catch (SQLException | NullPointerException e) {
                 e.printStackTrace();
             }
@@ -68,16 +68,16 @@ public class PaymentDao implements DAOPayment {
 
     public boolean updatePayment(Payment payment, Integer id) {
         boolean flag = false;
-        Connection cn = SQLDaoFactory.createConnection();
-        PreparedStatement st = null;
+        Connection connection = SQLDaoFactory.createConnection();
+        PreparedStatement preparedStatement = null;
 
         try {
-            st = cn.prepareStatement(configurationManager.getPropertySQL("SQL_UPDATE_PAYMENT"));
-            st.setInt(1, payment.getPaymentValue());
-            st.setString(2, payment.getPaymentType());
-            st.setLong(3, payment.getBankAccount());
-            st.setInt(4, id);
-            st.executeUpdate();
+            preparedStatement = connection.prepareStatement(configurationManager.getPropertySQL("SQL_UPDATE_PAYMENT"));
+            preparedStatement.setInt(1, payment.getPaymentValue());
+            preparedStatement.setString(2, payment.getPaymentType());
+            preparedStatement.setLong(3, payment.getBankAccount());
+            preparedStatement.setInt(4, id);
+            preparedStatement.executeUpdate();
             flag = true;
         }
         catch (SQLException e) {
@@ -85,8 +85,8 @@ public class PaymentDao implements DAOPayment {
         }
         finally {
             try {
-                st.close();
-                cn.close();
+                preparedStatement.close();
+                connection.close();
             } catch (SQLException | NullPointerException e) {
                 e.printStackTrace();
             }
@@ -96,13 +96,13 @@ public class PaymentDao implements DAOPayment {
 
     public boolean deletePayment(Integer id) {
         boolean flag = false;
-        Connection cn = SQLDaoFactory.createConnection();
-        PreparedStatement st = null;
+        Connection connection = SQLDaoFactory.createConnection();
+        PreparedStatement preparedStatement = null;
 
         try {
-            st = cn.prepareStatement(configurationManager.getPropertySQL("SQL_DELETE_PAYMENT"));
-            st.setInt(1, id);
-            st.executeUpdate();
+            preparedStatement = connection.prepareStatement(configurationManager.getPropertySQL("SQL_DELETE_PAYMENT"));
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
             flag = true;
         }
         catch (SQLException e) {
@@ -110,8 +110,8 @@ public class PaymentDao implements DAOPayment {
         }
         finally {
             try {
-                st.close();
-                cn.close();
+                preparedStatement.close();
+                connection.close();
             } catch (SQLException | NullPointerException e) {
                 e.printStackTrace();
             }

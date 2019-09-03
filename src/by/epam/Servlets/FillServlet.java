@@ -18,17 +18,18 @@ public class FillServlet extends HttpServlet {
 
 
         if (!request.getParameter("fill").equals("") && Integer.parseInt(request.getParameter("fill")) > 0) {
-            BankAccount bankAccount = new BankAccount();
-            Payment payment = new Payment();
             BankAccountDao bankAccountDao = new BankAccountDao();
-            PaymentDao paymentDao = new PaymentDao();
-            payment.setPaymentType("fill");
-            payment.setBankAccount(Long.parseLong(request.getParameter("accountNumber")));
-            payment.setPaymentValue(Integer.parseInt(request.getParameter("fill")));
-            paymentDao.insertPayment(payment);
-            bankAccountDao.changeBalance(Long.parseLong(request.getParameter("accountNumber")),
-                    bankAccountDao.findByNumber(Long.parseLong(request.getParameter("accountNumber"))).getBalance() +
-                            Integer.parseInt(request.getParameter("fill")));
+            if (!bankAccountDao.findByNumber(Long.parseLong(request.getParameter("accountNumber"))).getBlocked()) {
+                Payment payment = new Payment();
+                PaymentDao paymentDao = new PaymentDao();
+                payment.setPaymentType("fill");
+                payment.setBankAccount(Long.parseLong(request.getParameter("accountNumber")));
+                payment.setPaymentValue(Integer.parseInt(request.getParameter("fill")));
+                paymentDao.insertPayment(payment);
+                bankAccountDao.changeBalance(Long.parseLong(request.getParameter("accountNumber")),
+                        bankAccountDao.findByNumber(Long.parseLong(request.getParameter("accountNumber"))).getBalance() +
+                                Integer.parseInt(request.getParameter("fill")));
+            }
         }
         request.getRequestDispatcher("/clientpage.html").forward(request, response);
         }

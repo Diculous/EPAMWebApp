@@ -20,7 +20,7 @@ public class ClientDao implements DAOClient {
         ArrayList<Long> accounts;
         try {
             statementClients = connection.createStatement();
-            ResultSet resultSet = statementClients.executeQuery(configurationManager.getPropertySQL("SQL_SELECT_ALL_ABONENTS"));
+            ResultSet resultSet = statementClients.executeQuery(configurationManager.getPropertySQL("SQL_SELECT_ALL_CLIENTS"));
             while (resultSet.next()) {
 
                 statementAccounts = connection.createStatement();

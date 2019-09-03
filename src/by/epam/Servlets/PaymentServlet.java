@@ -18,17 +18,18 @@ public class PaymentServlet extends HttpServlet {
 
         if (!request.getParameter("pay").equals("")) {
             BankAccountDao bankAccountDao = new BankAccountDao();
-            PaymentDao paymentDao = new PaymentDao();
-            int paymentValue = Integer.parseInt(request.getParameter("pay"));
-            int balance = bankAccountDao.findByNumber(Long.parseLong(request.getParameter("accountNumber"))).getBalance();
-            if (balance >= paymentValue && paymentValue > 0) {
-                BankAccount bankAccount = new BankAccount();
-                Payment payment = new Payment();
-                payment.setPaymentType("pay");
-                payment.setBankAccount(Long.parseLong(request.getParameter("accountNumber")));
-                payment.setPaymentValue(Integer.parseInt(request.getParameter("pay")));
-                paymentDao.insertPayment(payment);
-                bankAccountDao.changeBalance(Long.parseLong(request.getParameter("accountNumber")), balance - paymentValue);
+            if (!bankAccountDao.findByNumber(Long.parseLong(request.getParameter("accountNumber"))).getBlocked()) {
+                PaymentDao paymentDao = new PaymentDao();
+                int paymentValue = Integer.parseInt(request.getParameter("pay"));
+                int balance = bankAccountDao.findByNumber(Long.parseLong(request.getParameter("accountNumber"))).getBalance();
+                if (balance >= paymentValue && paymentValue > 0) {
+                    Payment payment = new Payment();
+                    payment.setPaymentType("pay");
+                    payment.setBankAccount(Long.parseLong(request.getParameter("accountNumber")));
+                    payment.setPaymentValue(Integer.parseInt(request.getParameter("pay")));
+                    paymentDao.insertPayment(payment);
+                    bankAccountDao.changeBalance(Long.parseLong(request.getParameter("accountNumber")), balance - paymentValue);
+                }
             }
         }
         request.getRequestDispatcher("/clientpage.html").forward(request, response);

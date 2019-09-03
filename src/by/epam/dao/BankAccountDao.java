@@ -172,6 +172,7 @@ public class BankAccountDao implements DAOBankAccount {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 bankAccount.setBalance(resultSet.getInt(1));
+                bankAccount.setBlocked(resultSet.getBoolean(2));
             }
         } catch (SQLException e) {
             e.printStackTrace();

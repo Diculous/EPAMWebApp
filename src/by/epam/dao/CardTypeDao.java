@@ -1,15 +1,18 @@
 package by.epam.dao;
 
+import by.epam.interfacesDao.DAOCardType;
 import by.epam.payments.CardType;
 import by.epam.util.ConfigurationManager;
 import by.epam.util.SQLDaoFactory;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CardTypeDao implements by.epam.interfacesDao.DAOCardType {
-    ConfigurationManager configurationManager = ConfigurationManager.getInstance();
+public class CardTypeDao implements DAOCardType {
+    private ConfigurationManager configurationManager = ConfigurationManager.getInstance();
+    private static final Logger logger = Logger.getLogger(CardTypeDao.class);
 
     public List<CardType> findAll() {
         List<CardType> cardTypes = new ArrayList<>();
@@ -25,13 +28,13 @@ public class CardTypeDao implements by.epam.interfacesDao.DAOCardType {
                 cardTypes.add(cardType);
             }
         } catch (SQLException e) {
-            System.err.println("SQL exception (request or table failed): " + e);
+            logger.error(e.getMessage(), e);
         } finally {
             try {
                 statement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return cardTypes;
@@ -50,14 +53,14 @@ public class CardTypeDao implements by.epam.interfacesDao.DAOCardType {
             flag = true;
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         finally {
             try {
                 preparedStatement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return flag;
@@ -77,14 +80,14 @@ public class CardTypeDao implements by.epam.interfacesDao.DAOCardType {
             flag = true;
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         finally {
             try {
                 preparedStatement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return flag;
@@ -102,14 +105,14 @@ public class CardTypeDao implements by.epam.interfacesDao.DAOCardType {
             flag = true;
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         finally {
             try {
                 preparedStatement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return flag;

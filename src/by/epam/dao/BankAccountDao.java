@@ -4,26 +4,28 @@ import by.epam.interfacesDao.DAOBankAccount;
 import by.epam.payments.BankAccount;
 import by.epam.util.ConfigurationManager;
 import by.epam.util.SQLDaoFactory;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BankAccountDao implements DAOBankAccount {
-    ConfigurationManager configurationManager = ConfigurationManager.getInstance();
+    private ConfigurationManager configurationManager = ConfigurationManager.getInstance();
+    private static final Logger logger = Logger.getLogger(BankAccountDao.class);
 
     @Override
     public List<BankAccount> findAll() {
         List<BankAccount> bankAccounts = new ArrayList<>();
-        Connection cn = SQLDaoFactory.createConnection();
+        Connection connection = SQLDaoFactory.createConnection();
         Statement statementAccount = null;
         Statement statementCards = null;
         ArrayList<Long> cards;
         try {
-            statementAccount = cn.createStatement();
+            statementAccount = connection.createStatement();
             ResultSet resultSetAccounts = statementAccount.executeQuery(configurationManager.getPropertySQL("SQL_SELECT_ALL_BANK_ACCOUNTS"));
             while (resultSetAccounts.next()) {
-                statementCards = cn.createStatement();
+                statementCards = connection.createStatement();
                 ResultSet resultSetCards = statementCards.executeQuery(configurationManager.getPropertySQL("SQL_SELECT_CARDS_FOR_ACCOUNT") + resultSetAccounts.getInt("idAccount"));
 
                 cards = new ArrayList<>();
@@ -46,9 +48,9 @@ public class BankAccountDao implements DAOBankAccount {
             try {
                 statementAccount.close();
                 statementCards.close();
-                cn.close();
+                connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
 
@@ -71,13 +73,13 @@ public class BankAccountDao implements DAOBankAccount {
             preparedStatement.executeUpdate();
             flag = true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         } finally {
             try {
                 preparedStatement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return flag;
@@ -99,13 +101,13 @@ public class BankAccountDao implements DAOBankAccount {
             preparedStatement.executeUpdate();
             flag = true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         } finally {
             try {
                 preparedStatement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return flag;
@@ -123,13 +125,13 @@ public class BankAccountDao implements DAOBankAccount {
             preparedStatement.executeUpdate();
             flag = true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         } finally {
             try {
                 preparedStatement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return flag;
@@ -147,13 +149,13 @@ public class BankAccountDao implements DAOBankAccount {
             preparedStatement.executeUpdate();
             flag = true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         } finally {
             try {
                 preparedStatement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return flag;
@@ -161,7 +163,6 @@ public class BankAccountDao implements DAOBankAccount {
 
     @Override
     public BankAccount findByNumber(long accountNumber) {
-        boolean flag = false;
         Connection connection = SQLDaoFactory.createConnection();
         BankAccount bankAccount = new BankAccount();
         PreparedStatement preparedStatement = null;
@@ -175,13 +176,13 @@ public class BankAccountDao implements DAOBankAccount {
                 bankAccount.setBlocked(resultSet.getBoolean(2));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         } finally {
             try {
                 preparedStatement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return bankAccount;
@@ -200,13 +201,13 @@ public class BankAccountDao implements DAOBankAccount {
             preparedStatement.executeUpdate();
             flag = true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         } finally {
             try {
                 preparedStatement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return flag;
@@ -225,13 +226,13 @@ public class BankAccountDao implements DAOBankAccount {
             preparedStatement.executeUpdate();
             flag = true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         } finally {
             try {
                 preparedStatement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return flag;

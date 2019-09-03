@@ -4,13 +4,15 @@ import by.epam.interfacesDao.DAOPayment;
 import by.epam.payments.Payment;
 import by.epam.util.ConfigurationManager;
 import by.epam.util.SQLDaoFactory;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PaymentDao implements DAOPayment {
-    ConfigurationManager configurationManager = ConfigurationManager.getInstance();
+    private ConfigurationManager configurationManager = ConfigurationManager.getInstance();
+    private static final Logger logger = Logger.getLogger(PaymentDao.class);
 
     public List<Payment> findAll() {
         List<Payment> payments = new ArrayList<>();
@@ -27,13 +29,13 @@ public class PaymentDao implements DAOPayment {
                 payments.add(payment);
             }
         } catch (SQLException e) {
-            System.err.println("SQL exception (request or table failed): " + e);
+            logger.error(e.getMessage(), e);
         } finally {
             try {
                 statement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return payments;
@@ -53,14 +55,14 @@ public class PaymentDao implements DAOPayment {
             flag = true;
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         finally {
             try {
                 preparedStatement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return flag;
@@ -81,14 +83,14 @@ public class PaymentDao implements DAOPayment {
             flag = true;
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         finally {
             try {
                 preparedStatement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return flag;
@@ -106,14 +108,14 @@ public class PaymentDao implements DAOPayment {
             flag = true;
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         finally {
             try {
                 preparedStatement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return flag;

@@ -4,13 +4,15 @@ import by.epam.interfacesDao.DAOCreditCard;
 import by.epam.payments.CreditCard;
 import by.epam.util.ConfigurationManager;
 import by.epam.util.SQLDaoFactory;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CreditCardDao implements DAOCreditCard {
-    ConfigurationManager configurationManager = ConfigurationManager.getInstance();
+    private ConfigurationManager configurationManager = ConfigurationManager.getInstance();
+    private static final Logger logger = Logger.getLogger(CreditCardDao.class);
 
     public List<CreditCard> findAll() {
         List<CreditCard> cardTypes = new ArrayList<>();
@@ -27,13 +29,13 @@ public class CreditCardDao implements DAOCreditCard {
                 cardTypes.add(creditCard);
             }
         } catch (SQLException e) {
-            System.err.println("SQL exception (request or table failed): " + e);
+            logger.error(e.getMessage(), e);
         } finally {
             try {
                 statement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return cardTypes;
@@ -41,7 +43,7 @@ public class CreditCardDao implements DAOCreditCard {
 
     public boolean insertCard(CreditCard creditCard) {
         boolean flag = false;
-        Connection connection = SQLDaoFactory.createConnection();;
+        Connection connection = SQLDaoFactory.createConnection();
         PreparedStatement preparedStatement = null;
 
         try {
@@ -53,14 +55,14 @@ public class CreditCardDao implements DAOCreditCard {
             flag = true;
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         finally {
             try {
                 preparedStatement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return flag;
@@ -68,7 +70,7 @@ public class CreditCardDao implements DAOCreditCard {
 
     public boolean updateCardType(CreditCard creditCard, Long oldCreditCard) {
         boolean flag = false;
-        Connection connection = SQLDaoFactory.createConnection();;
+        Connection connection = SQLDaoFactory.createConnection();
         PreparedStatement preparedStatement = null;
 
         try {
@@ -81,14 +83,14 @@ public class CreditCardDao implements DAOCreditCard {
             flag = true;
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         finally {
             try {
                 preparedStatement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return flag;
@@ -96,7 +98,7 @@ public class CreditCardDao implements DAOCreditCard {
 
     public boolean deleteCard(CreditCard creditCard) {
         boolean flag = false;
-        Connection connection = SQLDaoFactory.createConnection();;
+        Connection connection = SQLDaoFactory.createConnection();
         PreparedStatement preparedStatement = null;
 
         try {
@@ -106,14 +108,14 @@ public class CreditCardDao implements DAOCreditCard {
             flag = true;
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         finally {
             try {
                 preparedStatement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return flag;

@@ -4,13 +4,15 @@ import by.epam.interfacesDao.DAOOperationType;
 import by.epam.payments.OperationType;
 import by.epam.util.ConfigurationManager;
 import by.epam.util.SQLDaoFactory;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OperationTypeDao implements DAOOperationType {
-    ConfigurationManager configurationManager = ConfigurationManager.getInstance();
+    private ConfigurationManager configurationManager = ConfigurationManager.getInstance();
+    private static final Logger logger = Logger.getLogger(OperationTypeDao.class);
 
     public List<OperationType> findAll() {
         List<OperationType> operationTypes = new ArrayList<>();
@@ -25,13 +27,13 @@ public class OperationTypeDao implements DAOOperationType {
                 operationTypes.add(operationType);
             }
         } catch (SQLException e) {
-            System.err.println("SQL exception (request or table failed): " + e);
+            logger.error(e.getMessage(), e);
         } finally {
             try {
                 statement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return operationTypes;
@@ -49,14 +51,14 @@ public class OperationTypeDao implements DAOOperationType {
             flag = true;
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         finally {
             try {
                 preparedStatement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return flag;
@@ -75,14 +77,14 @@ public class OperationTypeDao implements DAOOperationType {
             flag = true;
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         finally {
             try {
                 preparedStatement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return flag;
@@ -100,14 +102,14 @@ public class OperationTypeDao implements DAOOperationType {
             flag = true;
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         finally {
             try {
                 preparedStatement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return flag;

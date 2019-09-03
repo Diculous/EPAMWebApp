@@ -5,6 +5,7 @@ import by.epam.payments.ClientLoginData;
 import by.epam.util.AjaxClientLoader;
 import by.epam.util.ConfigurationManager;
 import by.epam.util.SQLDaoFactory;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClientLoginDataDao implements DAOClientLoginData {
-    ConfigurationManager configurationManager = ConfigurationManager.getInstance();
+    private ConfigurationManager configurationManager = ConfigurationManager.getInstance();
+    private static final Logger logger = Logger.getLogger(ClientLoginDataDao.class);
 
     @Override
     public ClientLoginData findByLoginAndPassword(String login, String password) {
@@ -34,13 +36,13 @@ public class ClientLoginDataDao implements DAOClientLoginData {
             }
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         } finally {
             try {
                 preparedStatement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return clientLoginData;
@@ -61,13 +63,13 @@ public class ClientLoginDataDao implements DAOClientLoginData {
             }
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         } finally {
             try {
                 preparedStatement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return clientLoginData;
@@ -95,13 +97,13 @@ public class ClientLoginDataDao implements DAOClientLoginData {
             }
         }
         catch (SQLException e) {
-            System.err.println("SQL exception (request or table failed): " + e);
+            logger.error(e.getMessage(), e);
         } finally {
             try {
                 preparedStatement.close();
                 connection.close();
             } catch (SQLException | NullPointerException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
         return loadClientInfoAjaxes;

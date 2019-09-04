@@ -43,7 +43,7 @@ public class BankAccountDao implements DAOBankAccount {
                 bankAccounts.add(bankAccount);
             }
         } catch (SQLException e) {
-            System.err.println("SQL exception (request or table failed): " + e);
+            logger.error(e.getMessage(), e);
         } finally {
             try {
                 statementAccount.close();

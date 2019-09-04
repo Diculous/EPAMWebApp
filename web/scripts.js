@@ -16,7 +16,7 @@ function postServletJSON(srvURL, form) {
         if (xhrequest.readyState === 4) {
             var status = xhrequest.status;
             if (status !== 200) {
-                document.write("Ответ Сервера " + xhrequest.statusText);
+                document.write("Неверный формат данных" + xhrequest.statusText);
             }
         }
     }
@@ -32,9 +32,7 @@ function getData(callback) {
             var status = xhrequest.status;
             if (status === 200) {
                 var data = JSON.parse(xhrequest.responseText);
-                if (callback) {
-                    callback(data);
-                }
+
                 var table = document.getElementById("table");
                 for (var i = 0; i < data.length; i++) {
                     var tr = document.createElement("tr");
@@ -61,19 +59,4 @@ function fillCell(value, row) {
     var td = document.createElement("td");
     td.textContent = value;
     row.appendChild(td);
-}
-
-function handleResponse(data) {
-    var select = document.querySelector('#fill select');
-    var option;
-    for(var i = 0; i < data.length; i++) {
-        option = document.createElement('option');
-        option.innerHTML = data[i].accountNumber;
-        option.value = data[i].accountNumber;
-        select.appendChild(option);
-    }
-}
-
-function init() {
-    getData(handleResponse);
 }

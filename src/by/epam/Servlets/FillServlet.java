@@ -4,6 +4,7 @@ import by.epam.dao.BankAccountDao;
 import by.epam.dao.PaymentDao;
 import by.epam.payments.BankAccount;
 import by.epam.payments.Payment;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,23 +15,31 @@ import java.io.IOException;
 
 @WebServlet(name = "FillServlet", urlPatterns = "/fill")
 public class FillServlet extends HttpServlet {
+    private static final Logger logger = Logger.getLogger(FillServlet.class);
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        try {
+            if (!request.getParameter("fill").equals("") && Integer.parseInt(request.getParameter("fill")) > 0) {
+                BankAccountDao bankAccountDao = new BankAccountDao();
+                if (!bankAccountDao.findByNumber(Long.parseLong(request.getParameter("accountNumber"))).getBlocked()) {
+                    Payment payment = new Payment();
+                    PaymentDao paymentDao = new PaymentDao();
+                    payment.setPaymentType("fill");
+                    payment.setBankAccount(Long.parseLong(request.getParameter("accountNumber")));
 
-        if (!request.getParameter("fill").equals("") && Integer.parseInt(request.getParameter("fill")) > 0) {
-            BankAccountDao bankAccountDao = new BankAccountDao();
-            if (!bankAccountDao.findByNumber(Long.parseLong(request.getParameter("accountNumber"))).getBlocked()) {
-                Payment payment = new Payment();
-                PaymentDao paymentDao = new PaymentDao();
-                payment.setPaymentType("fill");
-                payment.setBankAccount(Long.parseLong(request.getParameter("accountNumber")));
-                payment.setPaymentValue(Integer.parseInt(request.getParameter("fill")));
-                paymentDao.insertPayment(payment);
-                bankAccountDao.changeBalance(Long.parseLong(request.getParameter("accountNumber")),
-                        bankAccountDao.findByNumber(Long.parseLong(request.getParameter("accountNumber"))).getBalance() +
-                                Integer.parseInt(request.getParameter("fill")));
+                    payment.setPaymentValue(Integer.parseInt(request.getParameter("fill")));
+                    paymentDao.insertPayment(payment);
+                    bankAccountDao.changeBalance(Long.parseLong(request.getParameter("accountNumber")),
+                            bankAccountDao.findByNumber(Long.parseLong(request.getParameter("accountNumber"))).getBalance() +
+                                    Integer.parseInt(request.getParameter("fill")));
+                }
             }
         }
+                catch (NumberFormatException e) {
+                    logger.error(e.getMessage(), e);
+                }
+
+
         request.getRequestDispatcher("/clientpage.html").forward(request, response);
         }
 
